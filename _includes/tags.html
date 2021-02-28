@@ -2,6 +2,9 @@
 {%- assign _tag_min_size = 1 -%}
 {%- assign _tag_cur_size = 1 -%}
 {%- assign _tags = site.tags | sort -%}
+
+{%- assign _tags = _tags | where_exp: "item" , 'item[0]!="acadamic-info"' -%}
+
 {%- for _tag in _tags -%}
   {%- assign _tag_cur_size = _tag[1].size -%}
   {%- if _tag_cur_size > _tag_max_size -%}
@@ -15,11 +18,18 @@
 {%- if _tag_gap_size < 1 -%}
   {%- assign _tag_gap_size = 1 -%}
 {%- endif -%}
+
+{%- assign post_count = 0 -%}
+{%- for _post in site.posts -%}
+{%- unless _post.tags contains "acadamic-info" -%}
+{%- assign post_count = post_count | plus: 1 -%}
+{%- endunless -%}
+{%- endfor -%}
 <div class="site-tags js-tags">
   <ul class="menu">
     <li>
       <button type="button" class="button button--secondary button--pill tag-button tag-button--all" data-encode="">
-        Show All<div class="tag-button__count">{{ site.posts | size }}</div>
+        Show All<div class="tag-button__count">{{ post_count }}</div>
       </button>
     </li>
     {%- for _tag in _tags -%}

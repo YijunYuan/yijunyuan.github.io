@@ -26,7 +26,7 @@
 {%- endif -%}
 
   {%- for _article in _sorted_list -%}
-
+    {%- unless _article.tags contains "acadamic-info" -%}
     {%- include snippets/prepend-baseurl.html path=_article.url -%}
     {%- assign _article_url = __return -%}
 
@@ -139,6 +139,7 @@
         </div>
       {%- endif -%}
     {%- endif -%}
+    {%- endunless -%}
   {%- endfor -%}
 
 </div>
